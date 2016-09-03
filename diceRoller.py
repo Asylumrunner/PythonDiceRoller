@@ -12,6 +12,7 @@ print("What do you wanna do?")
 print("A. XdX dice roller")
 print("B. Asphyxia dice tester")
 print("C. Blackmarked dice tester")
+print("D. new Blackmarked dice tester")
 choice = input("Please enter your choice: ")
 
 if choice == "A":
@@ -100,10 +101,49 @@ elif choice == "C":
 
                 percentage = (victories/(victories + failures))
                 f.write("For a modifier %s, there were %s victories and %s failures, with an overall success percentage of %s \n" %(modifier, victories, failures, percentage))
+    f.close()
 
+elif choice == "D":
+    repetitions = int(input("How many repetitions of these rolls?"))
 
-
+    f = open("newBlackmarkedDataFile", 'w')
+    for skill in range(1, 7):
+        f.write("For skill %s \n" %(skill))
+        for x in range(0, 11):
+            victories = 0
+            failures = 0
+            dice = 2 + x
+            for g in range(repetitions):
+                succeeded = False
+                for i in range(0, dice):
+                    result = diceRoller("1d6")
+                    if result <= skill:
+                        succeeded = True
+                if succeeded:
+                    victories += 1
+                else:
+                    failures += 1
+            percentage = (victories/(victories + failures))
+            f.write("For %s Stamina Dice, there were %s victories and %s failures, with an overall success percentage of %s \n" %(x, victories, failures, percentage))
 
     f.close()
+
+elif choice == "E":
+    TN = int(input("How high is the target number?: "))
+    repetitions = int(input("How many repetitions?: "))
+
+    for bonusDice in range(0, 21):
+        successes = 0
+        failures = 0
+        dice = 2 + bonusDice
+        for x in range(repetitions):
+            result = diceRoller(str(dice) + "d6")
+            if result >= TN:
+                successes += 1
+            else:
+                failures += 1
+        percentage = (successes/(successes+failures))
+        print("With %s dice added, there were %s successes and %s failures, with an overall success percentage of %s" %(bonusDice, successes, failures, percentage))
+
 
 
